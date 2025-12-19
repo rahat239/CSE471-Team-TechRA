@@ -31,7 +31,7 @@ router.post('/sliders', Admin.createSlider);
 router.patch('/sliders/:id', Admin.updateSlider);
 router.delete('/sliders/:id', Admin.deleteSlider);
 
-// homepage features
+// homepage Features
 router.get('/features', Admin.listFeatures);
 router.post('/features', Admin.createFeature);
 router.patch('/features/:id', Admin.updateFeature);

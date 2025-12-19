@@ -28,7 +28,7 @@ df = pd.read_csv(DATA_PATH)
 X = df[["budget", "work_purpose"]]  # only user inputs
 y = df[["CPU", "GPU", "RAM", "Storage", "recommended_pc", "recommended_brand"]]
 
-# --- Encode categorical features ---
+# --- Encode categorical Features ---
 encoders = {}
 
 for col in X.select_dtypes(include=["object"]).columns:

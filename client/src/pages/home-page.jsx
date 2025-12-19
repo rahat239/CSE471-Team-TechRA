@@ -4,7 +4,7 @@ import Brands from "../components/product/brands.jsx";
 import ProductStore from "../store/ProductStore.js";
 import FeatureStore from "../store/FeatureStore.js";
 import Slider from "../components/product/slider.jsx";
-import Features from "../components/features/features.jsx";
+import Features from "../components/Features/features.jsx";
 import Categories from "../components/product/categories.jsx";
 import Products from "../components/product/products.jsx";
 

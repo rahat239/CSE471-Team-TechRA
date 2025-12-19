@@ -1,5 +1,5 @@
 // AdminController.js
-// Unified admin handlers: brands, categories, products (visibility), sliders, features, metrics
+// Unified admin handlers: brands, categories, products (visibility), sliders, Features, metrics
 
 const BrandModel = require('../models/BrandModel');
 const CategoryModel = require('../models/CategoryModel');
@@ -155,7 +155,7 @@ exports.listFeatures = async (_req, res) => {
         const data = await FeaturesModel.find().sort({ createdAt: -1 });
         res.json({ status: 'success', data });
     } catch (err) {
-        res.status(500).json({ status: 'fail', message: 'Error fetching features' });
+        res.status(500).json({ status: 'fail', message: 'Error fetching Features' });
     }
 };
 
