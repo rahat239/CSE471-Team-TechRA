@@ -1,14 +1,18 @@
 import sys
+import os
 import pandas as pd
 import joblib
 import re
 from sklearn.preprocessing import LabelEncoder
 
-# Load the models
-model = joblib.load('models/ai_pc_suggestion_model.pkl')
+# Get the base directory where the script is located
+BASE = os.path.dirname(__file__)
 
-# Load the label encoder (if saved separately)
-label_encoder = joblib.load('models/label_encoder.pkl')  # Make sure you save this during training
+# Load the models (updated to reflect the correct directory)
+model = joblib.load(os.path.join(BASE, "ai_service", "models", "ai_pc_suggestion_model.pkl"))
+
+# Load the label encoder (if saved separately, with updated path)
+label_encoder = joblib.load(os.path.join(BASE, "ai_service", "models", "label_encoder.pkl"))
 
 # Function to extract numeric values from RAM and Storage columns
 def extract_numeric(value):

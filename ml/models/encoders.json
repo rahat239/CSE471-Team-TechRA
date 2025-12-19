@@ -1,97 +1,34 @@
 {
     "work_purpose": {
-        "development": 0,
-        "gaming": 1,
-        "graphics": 2,
-        "office": 3,
-        "video_editing": 4
+        "Gaming": 0,
+        "Office": 1
     },
-    "CPU": {
-        "Intel i3": 0,
-        "Intel i5": 1,
-        "Intel i7": 2,
-        "Intel i9": 3,
-        "M1": 4
+    "cpu": {
+        "Intel": 0,
+        "AMD": 1
     },
-    "GPU": {
-        "Integrated": 0,
-        "NVIDIA 3050": 1,
-        "NVIDIA 3060": 2,
-        "NVIDIA 3070": 3,
-        "NVIDIA 4070": 4,
-        "NVIDIA 4080": 5,
-        "NVIDIA 4090": 6,
-        "NVIDIA RTX 6000": 7,
-        "RX 6600": 8,
-        "RX 6700": 9
+    "ram": {
+        "8GB": 0,
+        "16GB": 1
     },
-    "RAM": {
-        "128GB": 0,
-        "16GB": 1,
-        "32GB": 2,
-        "64GB": 3,
-        "8GB": 4
+    "gpu": {
+        "NVIDIA": 0,
+        "AMD": 1
     },
-    "Storage": {
-        "1TB SSD": 0,
-        "256GB SSD": 1,
-        "2TB SSD": 2,
-        "4TB SSD": 3,
-        "512GB SSD": 4,
-        "8TB SSD": 5
+    "storage": {
+        "512GB": 0,
+        "1TB": 1
+    },
+    "brand": {
+        "BrandA": 0,
+        "BrandB": 1
     },
     "recommended_pc": {
-        "Acer Aspire 3": 0,
-        "Acer Swift 3": 1,
-        "Alienware Aurora R15": 2,
-        "Asus ProArt Station D940MX": 3,
-        "Asus ProArt Studio": 4,
-        "Asus ProArt StudioBook": 5,
-        "Asus ROG Strix G15": 6,
-        "Asus ROG Strix GT35": 7,
-        "Asus ROG Tower 7": 8,
-        "Asus ROG Tower 9": 9,
-        "Asus ROG Zephyrus G14": 10,
-        "Asus TUF Gaming F15": 11,
-        "Dell Alienware Aurora R17": 12,
-        "Dell Inspiron 14": 13,
-        "Dell Inspiron 15": 14,
-        "Dell Precision 7920": 15,
-        "Dell Vostro 15": 16,
-        "Dell XPS 17": 17,
-        "HP Omen 16": 18,
-        "HP Omen 17": 19,
-        "HP Pavilion 15": 20,
-        "HP Pavilion Gaming 15": 21,
-        "HP Z8 G4 Workstation": 22,
-        "HP ZBook Fury": 23,
-        "Lenovo IdeaPad 5": 24,
-        "Lenovo Legion 5": 25,
-        "Lenovo Legion 7": 26,
-        "Lenovo Legion Tower 5": 27,
-        "Lenovo Legion Tower 9": 28,
-        "MSI Creator 15": 29,
-        "MSI Creator 17": 30,
-        "MSI Creator P100": 31,
-        "MSI Creator P200": 32,
-        "MSI GF63": 33,
-        "MSI Katana GF66": 34,
-        "MSI MEG Trident X": 35,
-        "MSI WS66": 36,
-        "MSI WS66 4K": 37,
-        "MSI WS76 4K": 38,
-        "Mac Mini M1": 39,
-        "Mac Mini M2": 40,
-        "Mac Pro 2019": 41,
-        "Mac Studio": 42
+        "PC1": 0,
+        "PC2": 1
     },
     "recommended_brand": {
-        "Acer": 0,
-        "Apple": 1,
-        "Asus": 2,
-        "Dell": 3,
-        "HP": 4,
-        "Lenovo": 5,
-        "MSI": 6
+        "BrandX": 0,
+        "BrandY": 1
     }
 }

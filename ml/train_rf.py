@@ -18,12 +18,13 @@ def convert_numpy(o):
     return o
 
 # --- Paths ---
-DATA_PATH = "data/pc_dataset.csv"
-MODEL_DIR = "models"
+BASE = os.path.dirname(__file__)
+MODEL_DIR = os.path.join(BASE, "models")  # Updated path to point to ai_service/models
 os.makedirs(MODEL_DIR, exist_ok=True)
 
 # Debugging: Print paths
 print(f"MODEL_DIR: {MODEL_DIR}")
+DATA_PATH = "data/pc_dataset.csv"  # Ensure this path is correct or update if necessary
 print(f"DATA_PATH: {DATA_PATH}")
 
 # --- Load dataset ---
@@ -92,7 +93,6 @@ except Exception as e:
     raise
 
 # --- Export each output to ONNX ---
-# --- Export each output to ONNX ---
 initial_type = [("input", FloatTensorType([None, X.shape[1]]))]  # now shape = (None, X.shape[1])
 
 for i, target_col in enumerate(y.columns):
@@ -100,13 +100,13 @@ for i, target_col in enumerate(y.columns):
     print(f"Saving ONNX models for {target_col} to {model_file}")
 
     try:
-        # Convert each models to ONNX format
+        # Convert each model to ONNX format
         onnx_model = convert_sklearn(
             model.estimators_[i],
             initial_types=initial_type  # Ensuring proper tuple formatting
         )
         with open(model_file, "wb") as f:
             f.write(onnx_model.SerializeToString())
-        print(f"{target_col} ONNX models saved!")
+        print(f"{target_col} ONNX model saved!")
     except Exception as e:
         print(f"Error saving ONNX models for {target_col}: {e}")
