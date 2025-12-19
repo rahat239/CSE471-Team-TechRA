@@ -9,13 +9,14 @@ try {
     encoders = JSON.parse(fs.readFileSync(encodersPath, "utf8"));
     console.log("Encoders loaded!");
 } catch (err) {
-    console.error(" Failed to load encoders:", err.message);
+    console.error("Failed to load encoders:", err.message);
 }
 
 // --- Load ONNX models ---
 let sessionPC, sessionBrand, sessionCPU, sessionGPU, sessionRAM, sessionStorage;
 (async () => {
     try {
+        console.log("Loading models...");
         sessionPC = await ort.InferenceSession.create(path.join(__dirname, "../../ml/models/recommended_pc_recommendation_model.onnx"));
         sessionBrand = await ort.InferenceSession.create(path.join(__dirname, "../../ml/models/recommended_brand_recommendation_model.onnx"));
         sessionCPU = await ort.InferenceSession.create(path.join(__dirname, "../../ml/models/CPU_recommendation_model.onnx"));
@@ -25,7 +26,7 @@ let sessionPC, sessionBrand, sessionCPU, sessionGPU, sessionRAM, sessionStorage;
 
         console.log("All models loaded!");
     } catch (err) {
-        console.error(" Failed to load AI models:", err.message);
+        console.error("Failed to load AI models:", err.message);
     }
 })();
 
@@ -38,25 +39,40 @@ function encodeInput(input) {
 
 // --- Helper to create a PC object ---
 function buildPCObject(resultPC, resultBrand, resultCPU, resultGPU, resultRAM, resultStorage, price) {
+    // Helper function to safely get the label data
+    const getLabel = (result, encoder) => {
+        if (!result || !result.label || !result.label.data || result.label.data.length === 0) {
+            console.error("Invalid result data:", result);
+            return "Unknown";  // Return a default value if data is invalid
+        }
+        const value = Number(result.label.data[0]);
+        return Object.keys(encoder).find(key => encoder[key] === value) || "Unknown";
+    };
+
     return {
-        pc: Object.keys(encoders.recommended_pc).find(key => encoders.recommended_pc[key] === Number(resultPC.label.data[0])),
-        brand: Object.keys(encoders.recommended_brand).find(key => encoders.recommended_brand[key] === Number(resultBrand.label.data[0])),
-        CPU: Object.keys(encoders.CPU).find(key => encoders.CPU[key] === Number(resultCPU.label.data[0])),
-        GPU: Object.keys(encoders.GPU).find(key => encoders.GPU[key] === Number(resultGPU.label.data[0])),
-        RAM: Object.keys(encoders.RAM).find(key => encoders.RAM[key] === Number(resultRAM.label.data[0])),
-        Storage: Object.keys(encoders.Storage).find(key => encoders.Storage[key] === Number(resultStorage.label.data[0])),
+        pc: getLabel(resultPC, encoders.recommended_pc),
+        brand: getLabel(resultBrand, encoders.recommended_brand),
+        CPU: getLabel(resultCPU, encoders.CPU),
+        GPU: getLabel(resultGPU, encoders.GPU),
+        RAM: getLabel(resultRAM, encoders.RAM),
+        Storage: getLabel(resultStorage, encoders.Storage),
         price
     };
 }
 
 // --- Controller ---
 const getRecommendation = async (req, res) => {
-    if (!sessionPC || !sessionBrand) {
+    if (!sessionPC || !sessionBrand || !sessionCPU || !sessionGPU || !sessionRAM || !sessionStorage) {
         return res.status(500).json({ error: "Models not loaded yet!" });
     }
 
     try {
         const { budget, work_purpose } = req.body;
+
+        // Validate input data
+        if (!budget || !work_purpose) {
+            return res.status(400).json({ error: "Missing required fields: 'budget' and 'work_purpose'" });
+        }
 
         // --- Function to predict a PC for a given budget ---
         const predictPC = async (b) => {

@@ -53,6 +53,10 @@ class Req(BaseModel):
 # --- Prediction Endpoint ---
 @app.post("/predict")
 def predict(r: Req):
+    # Check if required fields are provided
+    if not r.budget or not r.workPurpose:
+        return {"error": "Missing required fields: 'budget' and 'workPurpose'"}
+
     # Encode inputs
     if r.workPurpose not in encoders["work_purpose"]:
         return {"error": f"Unknown workPurpose: {r.workPurpose}"}
@@ -64,9 +68,12 @@ def predict(r: Req):
     # Loop through each output and generate predictions
     for name, sess in sessions.items():
         input_name = sess.get_inputs()[0].name
-        pred = sess.run(None, {input_name: x})[0]
-        # pred can be shape (1,) or (1,1) depending on export
-        pred_id = int(np.array(pred).reshape(-1)[0])
-        result[name] = rev[name].get(pred_id, pred_id)
+        try:
+            pred = sess.run(None, {input_name: x})[0]
+            # pred can be shape (1,) or (1,1) depending on export
+            pred_id = int(np.array(pred).reshape(-1)[0])
+            result[name] = rev[name].get(pred_id, pred_id)
+        except Exception as e:
+            return {"error": f"Error generating prediction for {name}: {str(e)}"}
 
     return {"recommendation": result}
