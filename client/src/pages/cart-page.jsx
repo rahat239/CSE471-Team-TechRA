@@ -1,5 +1,5 @@
 import React from 'react';
-import CartList from "../components/cart/cart-list.jsx";
+import CartList from "../components/Cart/cart-list.jsx";
 import Layout from "../components/layout/layout.jsx";
 import Categories from "../components/product/categories.jsx";
 

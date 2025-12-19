@@ -4,7 +4,7 @@ import DetailsSkeleton from "../../skeleton/details-skeleton.jsx";
 import parse from 'html-react-parser';
 import {useState} from "react";
 import Reviews from "./reviews.jsx";
-import CartSubmitButton from "../cart/CartSubmitButton.jsx";
+import CartSubmitButton from "../Cart/CartSubmitButton.jsx";
 import CartStore from "../../store/CartStore.js";
 import toast from "react-hot-toast";
 import WishStore from "../../store/WishStore.js";

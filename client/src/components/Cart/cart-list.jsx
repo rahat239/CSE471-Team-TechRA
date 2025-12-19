@@ -1,4 +1,4 @@
-// frontend/src/components/cart/cart-list.jsx
+// frontend/src/components/Cart/Cart-list.jsx
 import React, {useEffect} from 'react';
 import cartStore from "../../store/CartStore.js";
 import CartSubmitButton from "./CartSubmitButton.jsx";
