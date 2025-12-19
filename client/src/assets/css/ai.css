@@ -1,0 +1,104 @@
+/* AIRecommendationPage.css */
+
+/* Body and Page Background */
+body, #root {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #a1c4fd, #c2e9fb); /* Soft gradient */
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Container for the AI Page */
+.ai-page-container {
+    width: 100%;
+    max-width: 600px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+/* Heading */
+.ai-page-container h2 {
+    text-align: center;
+    color: #333;
+    font-size: 28px;
+    margin-bottom: 25px;
+}
+
+/* Form Styles */
+.ai-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.ai-form input {
+    padding: 12px 15px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.ai-form input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+}
+
+.ai-form button {
+    padding: 12px 0;
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    background: #007bff;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.ai-form button:hover {
+    background: #0056b3;
+}
+
+/* Error message */
+.error-message {
+    color: #d9534f;
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* AI Result Card */
+.ai-result-card {
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.ai-result-card h3 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.ai-result-card hr {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 10px 0;
+}
+
+.ai-result-card .component-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #555;
+}

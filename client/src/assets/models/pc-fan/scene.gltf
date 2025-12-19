@@ -1,0 +1,374 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 3019,
+      "max": [
+        3.993952989578247,
+        1.0489851236343384,
+        3.9944543838500977
+      ],
+      "min": [
+        -3.993952751159668,
+        -1.0573689937591553,
+        -3.994457483291626
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 36228,
+      "componentType": 5126,
+      "count": 3019,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 3019,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 9489,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 72456,
+      "componentType": 5126,
+      "count": 3766,
+      "max": [
+        1.3320506811141968,
+        0.5317178964614868,
+        1.2587392330169678
+      ],
+      "min": [
+        -1.3320506811141968,
+        -0.518738329410553,
+        -1.266920566558838
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 117648,
+      "componentType": 5126,
+      "count": 3766,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 24152,
+      "componentType": 5126,
+      "count": 3766,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 37956,
+      "componentType": 5125,
+      "count": 11280,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 162840,
+      "componentType": 5126,
+      "count": 873,
+      "max": [
+        -1.4790798425674438,
+        1.009993076324463,
+        18.34820556640625
+      ],
+      "min": [
+        -3.0148775577545166,
+        -0.2126624882221222,
+        0.2818286120891571
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 173316,
+      "componentType": 5126,
+      "count": 873,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 54280,
+      "componentType": 5126,
+      "count": 873,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 83076,
+      "componentType": 5125,
+      "count": 4560,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "generator": "fab-model-conversion",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 101316,
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 61264,
+      "byteOffset": 101316,
+      "byteStride": 8,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 183792,
+      "byteOffset": 162580,
+      "byteStride": 12,
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 346372,
+      "uri": "scene.bin"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "pc_fan",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.800000012,
+          0.800000012,
+          0.800000012,
+          1.0
+        ],
+        "metallicFactor": 0.0,
+        "roughnessFactor": 0.821115017
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "pc_fan_cables",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.800000012,
+          0.800000012,
+          0.800000012,
+          1.0
+        ],
+        "metallicFactor": 0.0,
+        "roughnessFactor": 0.821115017
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "pc_fan_pc_fan_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TEXCOORD_0": 2
+          },
+          "indices": 3,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "pc_fan_plug_pc_fan_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 5,
+            "POSITION": 4,
+            "TEXCOORD_0": 6
+          },
+          "indices": 7,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "pc_fan_cables_pc_fan_cables_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 9,
+            "POSITION": 8,
+            "TEXCOORD_0": 10
+          },
+          "indices": 11,
+          "material": 1,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.220446049250313e-16,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        2.220446049250313e-16,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "FAB converted model"
+    },
+    {
+      "children": [
+        2
+      ],
+      "matrix": [
+        0.009999999776482582,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.009999999776482582,
+        0.0,
+        0.0,
+        -0.009999999776482582,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "pc_fan.fbx"
+    },
+    {
+      "children": [
+        3
+      ],
+      "name": "RootNode"
+    },
+    {
+      "children": [
+        4,
+        5,
+        7
+      ],
+      "matrix": [
+        7.549789959870878e-08,
+        0.0,
+        -0.9999999999999971,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.9999999999999971,
+        0.0,
+        7.549789959870878e-08,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "pc_fan"
+    },
+    {
+      "mesh": 0,
+      "name": "pc_fan_pc_fan_0"
+    },
+    {
+      "children": [
+        6
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        -4.547473393985797e-15,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        4.547473393985797e-15,
+        0.0,
+        1.0,
+        0.0,
+        -2.1933460235595703,
+        -0.03872418776154518,
+        18.54184341430664,
+        1.0
+      ],
+      "name": "pc_fan_plug"
+    },
+    {
+      "mesh": 1,
+      "name": "pc_fan_plug_pc_fan_0"
+    },
+    {
+      "children": [
+        8
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        -4.547473393985797e-15,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        4.547473393985797e-15,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "pc_fan_cables"
+    },
+    {
+      "mesh": 2,
+      "name": "pc_fan_cables_pc_fan_cables_0"
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "FAB converted",
+      "nodes": [
+        0
+      ]
+    }
+  ]
+}

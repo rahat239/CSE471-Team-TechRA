@@ -1,0 +1,47 @@
+budget,work_purpose,CPU,GPU,RAM,Storage,recommended_pc,recommended_brand
+30000,office,Intel i3,Integrated,8GB,256GB SSD,Acer Aspire 3,Acer
+32000,office,Intel i3,Integrated,8GB,512GB SSD,Dell Inspiron 14,Dell
+34000,office,M1,Integrated,8GB,256GB SSD,Mac Mini M1,Apple
+36000,office,Intel i5,Integrated,8GB,512GB SSD,Acer Swift 3,Acer
+38000,office,Intel i5,Integrated,16GB,512GB SSD,Dell Vostro 15,Dell
+40000,office,M1,Integrated,16GB,512GB SSD,Mac Mini M2,Apple
+42000,office,Intel i5,Integrated,16GB,1TB SSD,HP Pavilion 15,HP
+45000,office,Intel i7,Integrated,16GB,1TB SSD,Lenovo IdeaPad 5,Lenovo
+48000,office,Intel i7,Integrated,16GB,1TB SSD,Dell Inspiron 15,Dell
+50000,gaming,Intel i5,RX 6600,16GB,512GB SSD,Asus ROG Strix G15,Asus
+52000,gaming,Intel i5,NVIDIA 3050,16GB,512GB SSD,HP Pavilion Gaming 15,HP
+55000,gaming,Intel i7,RX 6700,32GB,1TB SSD,MSI GF63,MSI
+57000,gaming,Intel i7,NVIDIA 3060,32GB,1TB SSD,Lenovo Legion 5,Lenovo
+60000,gaming,Intel i7,NVIDIA 3060,32GB,1TB SSD,Asus TUF Gaming F15,Asus
+62000,gaming,Intel i7,NVIDIA 3070,32GB,1TB SSD,MSI Katana GF66,MSI
+65000,graphics,Intel i7,NVIDIA 3050,16GB,512GB SSD,HP Omen 16,HP
+67000,graphics,Intel i7,NVIDIA 3060,32GB,1TB SSD,MSI Creator 15,MSI
+70000,graphics,Intel i9,NVIDIA 4070,64GB,2TB SSD,MSI Creator 17,MSI
+72000,graphics,Intel i9,NVIDIA 4070,64GB,2TB SSD,HP Omen 17,HP
+75000,development,Intel i7,NVIDIA 3070,32GB,1TB SSD,Lenovo Legion 7,Lenovo
+77000,development,Intel i9,NVIDIA 4070,64GB,2TB SSD,Asus ROG Zephyrus G14,Asus
+80000,development,Intel i9,NVIDIA 4070,64GB,2TB SSD,Lenovo Legion Tower 5,Lenovo
+82000,development,Intel i9,NVIDIA 4070,64GB,2TB SSD,MSI Creator P100,MSI
+85000,development,Intel i9,NVIDIA 4080,64GB,2TB SSD,Asus ROG Tower 7,Asus
+88000,video_editing,Intel i9,NVIDIA 4080,64GB,4TB SSD,Dell XPS 17,Dell
+90000,video_editing,Intel i9,NVIDIA 4090,64GB,4TB SSD,Mac Studio,Apple
+93000,video_editing,Intel i9,NVIDIA 4090,64GB,4TB SSD,HP ZBook Fury,HP
+96000,video_editing,Intel i9,NVIDIA 4090,64GB,4TB SSD,Asus ProArt Studio,Asus
+99000,video_editing,Intel i9,NVIDIA 4090,128GB,4TB SSD,MSI WS66,MSI
+102000,video_editing,Intel i9,NVIDIA 4090,128GB,4TB SSD,Dell Precision 7920,Dell
+105000,gaming,Intel i9,NVIDIA 4090,128GB,4TB SSD,MSI WS66 4K,MSI
+108000,gaming,Intel i9,NVIDIA 4090,128GB,4TB SSD,Asus ROG Strix GT35,Asus
+111000,gaming,Intel i9,NVIDIA 4090,128GB,4TB SSD,Alienware Aurora R15,Dell
+114000,gaming,Intel i9,NVIDIA 4090,128GB,4TB SSD,MSI MEG Trident X,MSI
+117000,development,Intel i9,NVIDIA 4090,128GB,4TB SSD,Lenovo Legion Tower 9,Lenovo
+120000,development,Intel i9,NVIDIA 4090,128GB,4TB SSD,Asus ROG Tower 9,Asus
+123000,development,Intel i9,NVIDIA 4090,128GB,4TB SSD,MSI Creator P200,MSI
+126000,development,Intel i9,NVIDIA 4090,128GB,4TB SSD,Dell Alienware Aurora R17,Dell
+129000,graphics,Intel i9,NVIDIA RTX 6000,128GB,8TB SSD,MSI WS76 4K,MSI
+132000,graphics,Intel i9,NVIDIA RTX 6000,128GB,8TB SSD,HP Z8 G4 Workstation,HP
+135000,graphics,Intel i9,NVIDIA RTX 6000,128GB,8TB SSD,Asus ProArt StudioBook,Asus
+138000,graphics,Intel i9,NVIDIA RTX 6000,128GB,8TB SSD,Dell Precision 7920,Dell
+141000,video_editing,Intel i9,NVIDIA 4090,128GB,8TB SSD,MSI WS66 4K,MSI
+144000,video_editing,Intel i9,NVIDIA 4090,128GB,8TB SSD,Asus ProArt Station D940MX,Asus
+147000,video_editing,Intel i9,NVIDIA 4090,128GB,8TB SSD,HP ZBook Fury,HP
+150000,video_editing,Intel i9,NVIDIA 4090,128GB,8TB SSD,Mac Pro 2019,Apple

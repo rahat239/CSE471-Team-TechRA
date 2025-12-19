@@ -1,0 +1,58 @@
+1. Run Your Back End First to Work With Your Front
+2. Front End Packages
+    - axios
+    - bootstrap
+    - bootstrap-icons
+    - html-react-parser
+    - js-cookie
+    - lottie-react
+    - react
+    - react-bootstrap
+    - react-dom
+    - react-hot-toast
+    - react-image-gallery
+    - react-loading-skeleton
+    - react-router-dom
+    - react-star-ratings
+    - sweetalert2
+    - zustand
+
+
+3. File Folder Structure
+    - assets
+        -css
+        -images
+
+    - components
+        -cart
+        -features
+        -invoice
+        -layout
+        -product
+        -user
+        -wish
+
+    - pages
+
+    - skeleton
+
+    - store
+        -cart
+        -features
+        -invoice
+        -layout
+        -product
+        -user
+        -wish
+
+
+4. Front End Project Methodology
+    - Develop your front end component by component
+    - Working with 1 component at time.
+    - Call API & Manage Store --> Present in component
+
+
+5. Next Classes
+    - Working With 5 Components
+    - Working With 10 Components
+    - Working With 10 Components
