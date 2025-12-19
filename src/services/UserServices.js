@@ -59,7 +59,7 @@ const VerifyOTPService = async (req) => {
 
         if (!doc) return { status: "fail", message: "Invalid OTP", total: 0 };
 
-        // Check if the user is admin
+        // Check if the User is admin
         const role = email === 'rahatahmed537@gmail.com' ? 'admin' : 'user';  // Assign role for admin
 
         // Issue token with role

@@ -4,10 +4,10 @@ import { getEmail, setEmail, unauthorized } from "../utility/utility.js";
 import Cookies from "js-cookie";
 
 const UserStore = create((set) => ({
-    // Check if the user is logged in by checking the presence of token in localStorage
+    // Check if the User is logged in by checking the presence of token in localStorage
     isLogin: () => {
         const token = localStorage.getItem('token');
-        console.log("Checking if user is logged in: Token found -", token); // Debugging token check
+        console.log("Checking if User is logged in: Token found -", token); // Debugging token check
         return !!token;
     },
 
@@ -21,7 +21,7 @@ const UserStore = create((set) => ({
         }));
     },
 
-    // Request OTP for user email
+    // Request OTP for User email
     UserOTPRequest: async (email) => {
         console.log("OTP Request initiated for email:", email); // Debugging OTP request
         set({ isFormSubmit: true });
@@ -32,7 +32,7 @@ const UserStore = create((set) => ({
         return res.data['status'] === "success";
     },
 
-    // Log out the user
+    // Log out the User
     UserLogoutRequest: async () => {
         console.log("User logout initiated."); // Debugging logout
         set({ isFormSubmit: true });

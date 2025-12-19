@@ -25,7 +25,7 @@ os.makedirs(MODEL_DIR, exist_ok=True)
 df = pd.read_csv(DATA_PATH)
 
 # --- Features & targets ---
-X = df[["budget", "work_purpose"]]  # only user inputs
+X = df[["budget", "work_purpose"]]  # only User inputs
 y = df[["CPU", "GPU", "RAM", "Storage", "recommended_pc", "recommended_brand"]]
 
 # --- Encode categorical Features ---

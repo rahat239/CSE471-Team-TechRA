@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/images/Logo.svg';
-import UserSubmitButton from "../user/UserSubmitButton";
+import UserSubmitButton from "../User/UserSubmitButton";
 import CartStore from "../../store/CartStore";
 import WishStore from "../../store/WishStore";
 
