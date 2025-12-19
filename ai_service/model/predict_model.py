@@ -4,11 +4,11 @@ import joblib
 import re
 from sklearn.preprocessing import LabelEncoder
 
-# Load the model
-model = joblib.load('model/ai_pc_suggestion_model.pkl')
+# Load the models
+model = joblib.load('models/ai_pc_suggestion_model.pkl')
 
 # Load the label encoder (if saved separately)
-label_encoder = joblib.load('model/label_encoder.pkl')  # Make sure you save this during training
+label_encoder = joblib.load('models/label_encoder.pkl')  # Make sure you save this during training
 
 # Function to extract numeric values from RAM and Storage columns
 def extract_numeric(value):
