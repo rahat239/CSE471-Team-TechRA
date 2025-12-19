@@ -32,8 +32,8 @@ class Req(BaseModel):
     budget: float
     workPurpose: str
 
-@app.post("/recommend")
-def recommend(r: Req):
+@app.post("/predict")
+def predict(r: Req):
     # Encode inputs
     if r.workPurpose not in encoders["work_purpose"]:
         return {"error": f"Unknown workPurpose: {r.workPurpose}"}
