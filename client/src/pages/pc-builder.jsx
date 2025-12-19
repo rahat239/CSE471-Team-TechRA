@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import PCBuilder3D from "../components/pcbuilder/PCBuilder3D";
+import PCBuilder3D from "../components/pcbuilder/PCBuilder3D.jsx";
 import PcBuilder from "../store/PcBuilderStore";
 
 const currency = (n) => `BDT. ${(n ?? 0).toLocaleString("en-BD")}`;
