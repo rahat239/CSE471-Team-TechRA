@@ -1,6 +1,9 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5030/api/v1/ai"; // removed trailing slash
+// Dynamically set the API URL based on the environment
+const API_URL = window.location.hostname === "localhost"
+    ? "http://localhost:5030/api/v1/ai"  // Local development URL
+    : "https://cse471-team-techra-6-08.onrender.com/api/v1/ai";  // Production URL (Render)
 
 const AIService = {
     getAIRecommendation: async (inputData) => {

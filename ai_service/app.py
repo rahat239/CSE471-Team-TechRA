@@ -17,7 +17,7 @@ app.add_middleware(
     allow_headers=["*"],  # Allow all headers
 )
 
-# --- Update BASE and MODEL_DIR to point to ai_service/models ---
+# --- Update  BASE and MODEL_DIR to point to ai_service/models ---
 BASE = os.path.dirname(__file__)  # BASE should be the directory where app.py is located
 MODEL_DIR = os.path.join(BASE, "models")  # Correct path to ai_service/models
 
