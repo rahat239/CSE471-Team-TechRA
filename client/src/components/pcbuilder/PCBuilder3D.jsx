@@ -4,10 +4,10 @@ import { Bounds, Environment, OrbitControls, useGLTF } from "@react-three/drei";
 import PcBuilder from "../../store/PcBuilderStore";
 
 // Model paths
-const CASE_PATH = new URL('../../assets/models/pc-case/scene.gltf', import.meta.url).href;
-const FAN_PATH  = new URL('../../assets/models/pc-fan/scene.gltf', import.meta.url).href;
-const GPU_PATH  = new URL('../../assets/models/pc-gpu/scene.gltf', import.meta.url).href;
-const RAM_PATH  = new URL('../../assets/models/pc-ram/scene.gltf', import.meta.url).href;
+const CASE_PATH = new URL('/assets/models/pc-case/scene.gltf', import.meta.url).href;
+const FAN_PATH  = new URL('/assets/models/pc-fan/scene.gltf', import.meta.url).href;
+const GPU_PATH  = new URL('/assets/models/pc-gpu/scene.gltf', import.meta.url).href;
+const RAM_PATH  = new URL('/assets/models/pc-ram/scene.gltf', import.meta.url).href;
 
 /* ------------ Generic 3D Model Loader ------------ */
 function Model({ path, scale = 1, position = [0, 0, 0] }) {

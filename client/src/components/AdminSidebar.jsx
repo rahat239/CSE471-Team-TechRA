@@ -1,7 +1,7 @@
 // frontend/src/components/AdminSidebar.jsx
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import techraLogo from '../assets/images/Logo.svg';
+import techraLogo from '../../public/assets/images/Logo.svg';
 
 const Item = ({ to, icon, children }) => {
     const { pathname } = useLocation();

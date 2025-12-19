@@ -1,5 +1,5 @@
 import React from 'react';
-import notfound from "../../assets/images/no-results.png"
+import notfound from "../../../public/assets/images/no-results.png"
 
 const NoData = () => {
     return (

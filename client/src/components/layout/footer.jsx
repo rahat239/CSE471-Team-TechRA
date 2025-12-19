@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import pay from "../../assets/images/pay.png"
+import pay from "../../../public/assets/images/pay.png"
 const Footer = () => {
     return (
         <div>
