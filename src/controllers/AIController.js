@@ -2,174 +2,164 @@ const path = require("path");
 const fs = require("fs");
 const ort = require("onnxruntime-node");
 
-// --- Load encoders ---
+// ---------- Load encoders ----------
 let encoders = null;
 try {
     const encodersPath = path.join(__dirname, "../../ml/models/encoders.json");
     encoders = JSON.parse(fs.readFileSync(encodersPath, "utf8"));
-    console.log(" Encoders loaded:", encodersPath);
+    console.log("Encoders loaded:", Object.keys(encoders));
 } catch (err) {
-    console.error("Failed to load encoders:", err.message);
+    console.error("Failed to load encoders:", err);
 }
 
-// --- Load ONNX models ---
-let sessionPC, sessionBrand, sessionCPU, sessionGPU, sessionRAM, sessionStorage;
+// ---------- Load ONNX models ----------
+const modelPaths = {
+    recommended_pc: "recommended_pc_recommendation_model.onnx",
+    recommended_brand: "recommended_brand_recommendation_model.onnx",
+    CPU: "CPU_recommendation_model.onnx",
+    GPU: "GPU_recommendation_model.onnx",
+    RAM: "RAM_recommendation_model.onnx",
+    Storage: "Storage_recommendation_model.onnx",
+};
 
-async function loadModels() {
+const sessions = {};
+let modelsReady = false;
+
+(async () => {
     try {
-        console.log("🔄 Loading ONNX models...");
-
-        const base = path.join(__dirname, "../../ml/models");
-        sessionPC = await ort.InferenceSession.create(path.join(base, "recommended_pc_recommendation_model.onnx"));
-        sessionBrand = await ort.InferenceSession.create(path.join(base, "recommended_brand_recommendation_model.onnx"));
-        sessionCPU = await ort.InferenceSession.create(path.join(base, "CPU_recommendation_model.onnx"));
-        sessionGPU = await ort.InferenceSession.create(path.join(base, "GPU_recommendation_model.onnx"));
-        sessionRAM = await ort.InferenceSession.create(path.join(base, "RAM_recommendation_model.onnx"));
-        sessionStorage = await ort.InferenceSession.create(path.join(base, "Storage_recommendation_model.onnx"));
-
-        console.log("✅ All models loaded!");
-        console.log("PC inputNames:", sessionPC.inputNames, "outputNames:", sessionPC.outputNames);
+        console.log("Loading ONNX models...");
+        for (const [key, file] of Object.entries(modelPaths)) {
+            const p = path.join(__dirname, "../../ml/models", file);
+            if (!fs.existsSync(p)) {
+                throw new Error(`Model file missing: ${p}`);
+            }
+            sessions[key] = await ort.InferenceSession.create(p);
+            console.log(`Loaded: ${key} (${file})`);
+        }
+        modelsReady = true;
+        console.log("All models loaded!");
     } catch (err) {
-        console.error("❌ Failed to load AI models:", err);
+        console.error("Failed to load AI models:", err);
+        modelsReady = false;
     }
-}
-loadModels();
+})();
 
-// --- helpers ---
-function safeEncode(encoder, value) {
-    if (!encoder || value == null) return 0;
-    return encoder[value] ?? 0;
-}
-
+// ---------- Helpers ----------
 function encodeInput({ budget, work_purpose }) {
-    // Make sure budget is numeric float32
+    if (!encoders) throw new Error("Encoders not loaded");
+
     const b = Number(budget);
-    const wp = safeEncode(encoders?.work_purpose, work_purpose);
-    return [Number.isFinite(b) ? b : 0, wp];
+    if (!Number.isFinite(b)) throw new Error("budget must be a number");
+
+    const wpMap = encoders.work_purpose || {};
+    const wp = work_purpose != null ? String(work_purpose) : "";
+    const wpId = wpMap[wp];
+
+    if (wpId === undefined) {
+        throw new Error(`Unknown work_purpose: ${wp}`);
+    }
+
+    return [b, Number(wpId)];
 }
 
-/**
- * skl2onnx classifiers usually return:
- * { output_label: Tensor, output_probability: ... }
- * so we must NOT assume result.label exists.
- */
-function extractPredictedId(runOutput) {
-    if (!runOutput || typeof runOutput !== "object") return null;
-
-    // Pick the first tensor-like output (often "output_label")
+// onnxruntime-node: session.run() returns object {outputName: Tensor, ...}
+// Don’t assume result.label exists.
+function getPredId(runOutput) {
+    if (!runOutput || typeof runOutput !== "object") {
+        throw new Error("Invalid run output");
+    }
     const firstKey = Object.keys(runOutput)[0];
-    const tensor = runOutput[firstKey];
+    if (!firstKey) throw new Error("No outputs returned by model");
 
-    if (!tensor || !tensor.data || tensor.data.length === 0) return null;
+    const tensor = runOutput[firstKey];
+    if (!tensor || !tensor.data || tensor.data.length === 0) {
+        throw new Error(`Empty tensor output (key=${firstKey})`);
+    }
     return Number(tensor.data[0]);
 }
 
-function decodeLabel(encoderMap, predId) {
-    if (!encoderMap || predId == null) return "Unknown";
-    // encoderMap is like { "Gaming PC": 0, "Workstation": 1 }
-    return Object.keys(encoderMap).find((k) => Number(encoderMap[k]) === Number(predId)) || "Unknown";
+function decodeLabel(encoderMap, id) {
+    if (!encoderMap) return "Unknown";
+    const found = Object.keys(encoderMap).find((k) => Number(encoderMap[k]) === Number(id));
+    return found || "Unknown";
 }
 
-function buildPCObject(rPC, rBrand, rCPU, rGPU, rRAM, rStorage, price) {
-    const idPC = extractPredictedId(rPC);
-    const idBrand = extractPredictedId(rBrand);
-    const idCPU = extractPredictedId(rCPU);
-    const idGPU = extractPredictedId(rGPU);
-    const idRAM = extractPredictedId(rRAM);
-    const idStorage = extractPredictedId(rStorage);
-
+function buildPCObject(preds, price) {
     return {
-        pc: decodeLabel(encoders?.recommended_pc, idPC),
-        brand: decodeLabel(encoders?.recommended_brand, idBrand),
-        CPU: decodeLabel(encoders?.CPU, idCPU),
-        GPU: decodeLabel(encoders?.GPU, idGPU),
-        RAM: decodeLabel(encoders?.RAM, idRAM),
-        Storage: decodeLabel(encoders?.Storage, idStorage),
+        pc: decodeLabel(encoders.recommended_pc, preds.recommended_pc),
+        brand: decodeLabel(encoders.recommended_brand, preds.recommended_brand),
+        CPU: decodeLabel(encoders.CPU, preds.CPU),
+        GPU: decodeLabel(encoders.GPU, preds.GPU),
+        RAM: decodeLabel(encoders.RAM, preds.RAM),
+        Storage: decodeLabel(encoders.Storage, preds.Storage),
         price,
     };
 }
 
-// --- Controller ---
+// ---------- Controller ----------
 const getRecommendation = async (req, res) => {
     try {
-        // Validate that everything is loaded
-        if (!encoders) return res.status(500).json({ error: "Encoders not loaded" });
-        if (!sessionPC || !sessionBrand || !sessionCPU || !sessionGPU || !sessionRAM || !sessionStorage) {
-            return res.status(500).json({ error: "Models not loaded yet!" });
+        if (!modelsReady) {
+            return res.status(503).json({ error: "Models not loaded yet (server starting)!" });
+        }
+        if (!encoders) {
+            return res.status(500).json({ error: "Encoders not loaded" });
         }
 
-        let { budget, work_purpose } = req.body;
+        const { budget, work_purpose } = req.body;
 
-        // Validate request
-        budget = Number(budget);
-        if (!Number.isFinite(budget) || budget <= 0) {
-            return res.status(400).json({ error: "Invalid 'budget' (must be a positive number)" });
+        if (budget === undefined || work_purpose === undefined) {
+            return res.status(400).json({ error: "Missing required fields: budget, work_purpose" });
         }
-        if (!work_purpose) {
-            return res.status(400).json({ error: "Missing required field: 'work_purpose'" });
-        }
-        if (!encoders.work_purpose || encoders.work_purpose[work_purpose] == null) {
-            return res.status(400).json({
-                error: `Unknown work_purpose: ${work_purpose}`,
-                allowed: Object.keys(encoders.work_purpose || {}),
-            });
-        }
-
-        // Use the real ONNX input name (DO NOT hardcode "input")
-        const inputName = sessionPC.inputNames[0];
 
         const predictPC = async (b) => {
             const inputArray = encodeInput({ budget: b, work_purpose });
-            const tensor = new ort.Tensor("float32", Float32Array.from(inputArray), [1, inputArray.length]);
 
+            // Use the real input name from the model (don’t hardcode "input")
+            const inputName = sessions.CPU.inputNames[0]; // all your models share same input schema
+            const tensor = new ort.Tensor("float32", Float32Array.from(inputArray), [1, inputArray.length]);
             const feeds = { [inputName]: tensor };
 
-            // Run all models
-            const [rPC, rBrand, rCPU, rGPU, rRAM, rStorage] = await Promise.all([
-                sessionPC.run(feeds),
-                sessionBrand.run(feeds),
-                sessionCPU.run(feeds),
-                sessionGPU.run(feeds),
-                sessionRAM.run(feeds),
-                sessionStorage.run(feeds),
-            ]);
-
-            return buildPCObject(rPC, rBrand, rCPU, rGPU, rRAM, rStorage, b);
+            const out = {};
+            for (const key of Object.keys(modelPaths)) {
+                const runOutput = await sessions[key].run(feeds);
+                out[key] = getPredId(runOutput);
+            }
+            return buildPCObject(out, b);
         };
 
-        const topPick = await predictPC(budget);
+        const b0 = Number(budget);
+        const topPick = await predictPC(b0);
 
-        // Similar budget
-        const similarBudget = [];
+        const similar_budget = [];
         for (let diff = -5000; diff <= 5000; diff += 1000) {
-            const newBudget = budget + diff;
-            if (newBudget > 0 && newBudget !== budget) {
+            const newBudget = b0 + diff;
+            if (newBudget > 0 && newBudget !== b0) {
                 const pc = await predictPC(newBudget);
-                if (!similarBudget.some((p) => JSON.stringify(p) === JSON.stringify(pc))) {
-                    similarBudget.push(pc);
+                if (!similar_budget.some((p) => JSON.stringify(p) === JSON.stringify(pc))) {
+                    similar_budget.push(pc);
                 }
             }
         }
 
-        // Higher budget options
-        const higherBudget = [];
+        const higher_budget = [];
         for (const inc of [10000, 20000, 30000, 40000, 50000]) {
-            const pc = await predictPC(budget + inc);
+            const pc = await predictPC(b0 + inc);
             if (
-                !higherBudget.some((p) => JSON.stringify(p) === JSON.stringify(pc)) &&
-                !similarBudget.some((p) => JSON.stringify(p) === JSON.stringify(pc)) &&
-                JSON.stringify(topPick) !== JSON.stringify(pc)
+                JSON.stringify(pc) !== JSON.stringify(topPick) &&
+                !similar_budget.some((p) => JSON.stringify(p) === JSON.stringify(pc)) &&
+                !higher_budget.some((p) => JSON.stringify(p) === JSON.stringify(pc))
             ) {
-                higherBudget.push(pc);
+                higher_budget.push(pc);
             }
         }
 
-        return res.json({ top_pick: topPick, similar_budget: similarBudget, higher_budget: higherBudget });
+        return res.json({ top_pick: topPick, similar_budget, higher_budget });
     } catch (err) {
-        console.error(" Prediction error:", err);
+        console.error("Prediction error:", err);
         return res.status(500).json({
             error: "Failed to get recommendation",
-            details: err?.message || String(err),
+            details: err.message, // helpful on Render logs
         });
     }
 };

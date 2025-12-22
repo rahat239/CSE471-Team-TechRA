@@ -10,70 +10,53 @@ app = FastAPI()
 BASE = os.path.dirname(__file__)
 MODEL_DIR = os.path.join(BASE, "models")
 
-OUTPUTS = ["CPU", "GPU", "RAM", "Storage", "recommended_pc", "recommended_brand"]
+# ---------- Load encoders ----------
+enc_path = os.path.join(MODEL_DIR, "encoders.json")
+if not os.path.exists(enc_path):
+    raise RuntimeError(f"encoders.json not found at: {enc_path}")
 
-encoders = None
-rev = None
+with open(enc_path, "r") as f:
+    encoders = json.load(f)
+
+# Reverse maps (id -> label)
+rev = {col: {int(v): k for k, v in mapping.items()} for col, mapping in encoders.items()}
+
+# ---------- Load ONNX sessions ----------
+outputs = ["CPU", "GPU", "RAM", "Storage", "recommended_pc", "recommended_brand"]
 sessions = {}
 
+for name in outputs:
+    model_path = os.path.join(MODEL_DIR, f"{name}_recommendation_model.onnx")
+    if not os.path.exists(model_path):
+        raise RuntimeError(f"ONNX model missing: {model_path}")
+    sessions[name] = ort.InferenceSession(model_path, providers=["CPUExecutionProvider"])
 
+
+# Accept BOTH workPurpose and work_purpose
 class Req(BaseModel):
-    budget: float = Field(..., gt=0)
-    # ✅ Accept Node's field name: work_purpose
-    work_purpose: str = Field(..., alias="workPurpose")
+    budget: float | int | None = None
+    workPurpose: str | None = Field(default=None, alias="work_purpose")
 
     class Config:
-        populate_by_name = True  # allow both "workPurpose" and "work_purpose"
-
-
-@app.on_event("startup")
-def load_everything():
-    global encoders, rev, sessions
-
-    enc_path = os.path.join(MODEL_DIR, "encoders.json")
-    if not os.path.exists(enc_path):
-        raise RuntimeError(f"encoders.json not found at: {enc_path}")
-
-    with open(enc_path, "r") as f:
-        encoders = json.load(f)
-
-    # reverse maps: id -> label
-    rev = {col: {int(v): k for k, v in mapping.items()} for col, mapping in encoders.items()}
-
-    # load ONNX sessions
-    for name in OUTPUTS:
-        model_path = os.path.join(MODEL_DIR, f"{name}_recommendation_model.onnx")
-        if not os.path.exists(model_path):
-            raise RuntimeError(f"Model not found for {name}: {model_path}")
-
-        sessions[name] = ort.InferenceSession(model_path, providers=["CPUExecutionProvider"])
-
-    print("✅ Encoders + ONNX models loaded successfully")
+        populate_by_name = True  # allows workPurpose + alias
 
 
 @app.get("/health")
 def health():
-    return {
-        "ok": True,
-        "models_loaded": all(k in sessions for k in OUTPUTS),
-        "model_dir": MODEL_DIR,
-    }
+    return {"ok": True, "models_loaded": list(sessions.keys())}
 
 
 @app.post("/predict")
 def predict(r: Req):
-    if encoders is None or rev is None or not sessions:
-        raise HTTPException(status_code=503, detail="Models not loaded yet")
+    # ---- Validate inputs (correctly) ----
+    if r.budget is None or r.workPurpose is None:
+        raise HTTPException(status_code=400, detail="Missing required fields: budget and workPurpose/work_purpose")
 
-    wp = (r.work_purpose or "").strip()
+    work = r.workPurpose.strip()
+    if work not in encoders.get("work_purpose", {}):
+        raise HTTPException(status_code=400, detail=f"Unknown workPurpose: {work}")
 
-    if "work_purpose" not in encoders:
-        raise HTTPException(status_code=500, detail="encoders.json missing key: work_purpose")
-
-    if wp not in encoders["work_purpose"]:
-        raise HTTPException(status_code=400, detail=f"Unknown work_purpose: {wp}")
-
-    x = np.array([[float(r.budget), float(encoders["work_purpose"][wp])]], dtype=np.float32)
+    x = np.array([[float(r.budget), float(encoders["work_purpose"][work])]], dtype=np.float32)
 
     result = {}
     for name, sess in sessions.items():
@@ -81,11 +64,9 @@ def predict(r: Req):
             input_name = sess.get_inputs()[0].name
             pred = sess.run(None, {input_name: x})[0]
             pred_id = int(np.array(pred).reshape(-1)[0])
-            result[name] = rev[name].get(pred_id, pred_id)
+            result[name] = rev.get(name, {}).get(pred_id, pred_id)
         except Exception as e:
-            raise HTTPException(
-                status_code=500,
-                detail=f"Error generating prediction for {name}: {str(e)}"
-            )
+            # Show which model failed
+            raise HTTPException(status_code=500, detail=f"Error generating prediction for {name}: {str(e)}")
 
     return {"recommendation": result}
