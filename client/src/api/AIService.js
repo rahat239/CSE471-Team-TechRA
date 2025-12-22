@@ -1,29 +1,26 @@
 import axios from "axios";
 
-// Use env variable if available, otherwise fallback to localhost (DEV)
-const API_BASE_URL =
-    import.meta.env.VITE_API_URL || "http://localhost:5030";
-
-const API_URL = `${API_BASE_URL}/api/v1/ai`;
+// In production, prefer SAME-ORIGIN calls (no domain), so it works on Render without CORS pain.
+const BASE = import.meta.env.VITE_API_URL?.replace(/\/$/, "") || "";
 
 const AIService = {
     getAIRecommendation: async (inputData) => {
         try {
-            const response = await axios.post(
-                `${API_URL}/predict`,
-                inputData,
-                {
-                    timeout: 60000, // handle Render cold start
-                }
-            );
-            return response.data;
-        } catch (error) {
-            console.error("AI Recommendation API error:", {
-                message: error.message,
-                code: error.code,
-                url: `${API_URL}/predict`,
+            // If BASE="", this becomes "/api/v1/ai/predict" (same domain)
+            const url = `${BASE}/api/v1/ai/predict`;
+            const res = await axios.post(url, inputData, {
+                headers: { "Content-Type": "application/json" },
             });
-            throw error;
+            return res.data;
+        } catch (err) {
+            console.error("AI Recommendation API error:", {
+                message: err?.message,
+                code: err?.code,
+                url: err?.config?.url,
+                status: err?.response?.status,
+                data: err?.response?.data,
+            });
+            throw err;
         }
     },
 };
